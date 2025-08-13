@@ -19,6 +19,13 @@ jobs:
         pip3 install --upgrade cython
         pip3 install --upgrade buildozer
         ~/.local/bin/buildozer --version
+        git --version
+
+    - name: Debug PATH and git
+      run: |
+        echo "PATH=$PATH"
+        which git
+        git --version
 
     - name: Install Android SDK command line tools and accept licenses
       run: |
@@ -32,7 +39,7 @@ jobs:
     - name: Build APK
       env:
         ANDROID_SDK_ROOT: $HOME/android-sdk
-        PATH: $HOME/.local/bin:$HOME/android-sdk/cmdline-tools/latest/bin:$PATH
+        PATH: /usr/bin:$HOME/.local/bin:$HOME/android-sdk/cmdline-tools/latest/bin:$PATH
       run: |
         ~/.local/bin/buildozer android debug
 
