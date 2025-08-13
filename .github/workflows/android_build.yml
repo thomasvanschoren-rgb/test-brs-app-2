@@ -30,23 +30,23 @@ jobs:
         git --version
         cython --version || cython3 --version
 
-    - name: Install Android SDK command line tools, build-tools, and accept licenses
+    - name: Pre-install Android build-tools inside Buildozer SDK
       run: |
-        mkdir -p $HOME/android-sdk/cmdline-tools
+        mkdir -p ~/.buildozer/android/platform/android-sdk/cmdline-tools
         wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O cmdline-tools.zip
-        unzip cmdline-tools.zip -d $HOME/android-sdk/cmdline-tools
-        mv $HOME/android-sdk/cmdline-tools/cmdline-tools $HOME/android-sdk/cmdline-tools/latest
-        export PATH=$HOME/android-sdk/cmdline-tools/latest/bin:$PATH
-        yes | sdkmanager --sdk_root=$HOME/android-sdk --licenses
-        sdkmanager --sdk_root=$HOME/android-sdk \
+        unzip cmdline-tools.zip -d ~/.buildozer/android/platform/android-sdk/cmdline-tools
+        mv ~/.buildozer/android/platform/android-sdk/cmdline-tools/cmdline-tools ~/.buildozer/android/platform/android-sdk/cmdline-tools/latest
+        export PATH=$HOME/.buildozer/android/platform/android-sdk/cmdline-tools/latest/bin:$PATH
+        yes | sdkmanager --sdk_root=$HOME/.buildozer/android/platform/android-sdk --licenses
+        sdkmanager --sdk_root=$HOME/.buildozer/android/platform/android-sdk \
           "platform-tools" \
           "platforms;android-33" \
           "build-tools;33.0.2"
 
     - name: Build APK
       env:
-        ANDROID_SDK_ROOT: $HOME/android-sdk
-        PATH: /usr/bin:$HOME/.local/bin:$HOME/android-sdk/cmdline-tools/latest/bin:$PATH
+        ANDROID_SDK_ROOT: $HOME/.buildozer/android/platform/android-sdk
+        PATH: /usr/bin:$HOME/.local/bin:$HOME/.buildozer/android/platform/android-sdk/cmdline-tools/latest/bin:$PATH
       run: |
         ~/.local/bin/buildozer android debug
 
