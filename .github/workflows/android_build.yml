@@ -26,6 +26,13 @@ jobs:
         unzip android-ndk-r21e-linux-x86_64.zip -d $HOME/.buildozer/android/platform/
         echo "LEGACY_NDK=$HOME/.buildozer/android/platform/android-ndk-r21e" >> $GITHUB_ENV
 
+    - name: Install android-gfortran
+      run: |
+        cd $HOME/.buildozer/android/platform
+        git clone https://github.com/mzakharo/android-gfortran.git
+        cd android-gfortran
+        ./install.sh
+
     - name: Trigger Buildozer to create SDK folder
       run: |
         ~/.local/bin/buildozer android debug || true
