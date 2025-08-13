@@ -30,7 +30,7 @@ jobs:
         git --version
         cython --version || cython3 --version
 
-    - name: Install Android SDK command line tools and accept licenses
+    - name: Install Android SDK command line tools, build-tools, and accept licenses
       run: |
         mkdir -p $HOME/android-sdk/cmdline-tools
         wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O cmdline-tools.zip
@@ -38,6 +38,10 @@ jobs:
         mv $HOME/android-sdk/cmdline-tools/cmdline-tools $HOME/android-sdk/cmdline-tools/latest
         export PATH=$HOME/android-sdk/cmdline-tools/latest/bin:$PATH
         yes | sdkmanager --sdk_root=$HOME/android-sdk --licenses
+        sdkmanager --sdk_root=$HOME/android-sdk \
+          "platform-tools" \
+          "platforms;android-33" \
+          "build-tools;33.0.2"
 
     - name: Build APK
       env:
