@@ -12,11 +12,12 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v3
 
-    - name: Install dependencies
+    - name: Install dependencies and buildozer
       run: |
         sudo apt update
         sudo apt install -y python3-pip openjdk-11-jdk unzip git wget
-        pip3 install --upgrade cython buildozer
+        pip3 install --upgrade cython
+        pip3 install --upgrade buildozer
 
     - name: Install Android SDK command line tools and accept licenses
       run: |
@@ -30,7 +31,7 @@ jobs:
     - name: Build APK
       env:
         ANDROID_SDK_ROOT: $HOME/android-sdk
-        PATH: $HOME/android-sdk/cmdline-tools/latest/bin:$PATH
+        PATH: $HOME/.local/bin:$HOME/android-sdk/cmdline-tools/latest/bin:$PATH
       run: |
         buildozer android debug
 
@@ -39,3 +40,4 @@ jobs:
       with:
         name: brs-visualizer-apk
         path: bin/*.apk
+
