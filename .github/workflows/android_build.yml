@@ -18,19 +18,12 @@ jobs:
         sudo apt install -y python3-pip python3-setuptools python3-wheel cython3 openjdk-11-jdk unzip git wget
         pip3 install --upgrade cython
         pip3 install --upgrade buildozer
-        ~/.local/bin/buildozer --version
-        git --version
-        cython --version || cython3 --version
 
-    - name: Debug PATH and tools
+    - name: Trigger Buildozer to create SDK folder
       run: |
-        echo "PATH=$PATH"
-        which git
-        which cython || which cython3
-        git --version
-        cython --version || cython3 --version
+        ~/.local/bin/buildozer android debug || true
 
-    - name: Pre-install Android build-tools inside Buildozer SDK
+    - name: Install Android build-tools inside Buildozer SDK
       run: |
         mkdir -p ~/.buildozer/android/platform/android-sdk/cmdline-tools
         wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O cmdline-tools.zip
@@ -43,7 +36,7 @@ jobs:
           "platforms;android-33" \
           "build-tools;33.0.2"
 
-    - name: Build APK
+    - name: Build final APK
       env:
         ANDROID_SDK_ROOT: $HOME/.buildozer/android/platform/android-sdk
         PATH: /usr/bin:$HOME/.local/bin:$HOME/.buildozer/android/platform/android-sdk/cmdline-tools/latest/bin:$PATH
