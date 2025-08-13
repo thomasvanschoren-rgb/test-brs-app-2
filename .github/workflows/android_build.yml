@@ -30,21 +30,23 @@ jobs:
       run: |
         cd $HOME/.buildozer/android/platform
 
-        # Download prebuilt gfortran archives
-        wget -q https://github.com/buffer51/android-gfortran/releases/download/v1.0/gcc-arm-linux-x86_64.tar.bz2
-        wget -q https://github.com/buffer51/android-gfortran/releases/download/v1.0/gcc-arm64-linux-x86_64.tar.bz2
+        # Download the right prebuilt Fortran toolchains
+        wget -q https://github.com/mzakharo/android-gfortran/releases/download/r21e/gcc-arm64-linux-x86_64.tar.bz2
+        wget -q https://github.com/mzakharo/android-gfortran/releases/download/r21e/gcc-arm-linux-x86_64.tar.bz2
 
-        # Extract ARM 32-bit toolchain
-        tar -jxvf gcc-arm-linux-x86_64.tar.bz2
-        mkdir -p android-ndk-r21e/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64
-        mv arm-linux-androideabi-4.9/* android-ndk-r21e/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64/
-        rmdir arm-linux-androideabi-4.9
-
-        # Extract ARM 64-bit toolchain
+        # Extract and install ARM 64-bit Fortran toolchain
         tar -jxvf gcc-arm64-linux-x86_64.tar.bz2
-        mkdir -p android-ndk-r21e/toolchains/aarch64-linux-android-4.9/prebuilt/linux-x86_64
+        rm -rf android-ndk-r21e/toolchains/aarch64-linux-android-4.9/prebuilt/linux-x86_64/
+        mkdir -p android-ndk-r21e/toolchains/aarch64-linux-android-4.9/prebuilt/linux-x86_64/
         mv aarch64-linux-android-4.9/* android-ndk-r21e/toolchains/aarch64-linux-android-4.9/prebuilt/linux-x86_64/
         rmdir aarch64-linux-android-4.9
+
+        # Extract and install ARM 32-bit Fortran toolchain
+        tar -jxvf gcc-arm-linux-x86_64.tar.bz2
+        rm -rf android-ndk-r21e/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64/
+        mkdir -p android-ndk-r21e/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64/
+        mv arm-linux-androideabi-4.9/* android-ndk-r21e/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64/
+        rmdir arm-linux-androideabi-4.9
 
     - name: Trigger Buildozer to create SDK folder
       run: |
