@@ -28,13 +28,13 @@ jobs:
 
     - name: Install android-gfortran
       run: |
-        mkdir -p $HOME/.buildozer/android/platform
-        cd $HOME/.buildozer/android/platform
-        git clone https://github.com/mzakharo/android-gfortran.git
-        cd android-gfortran/scripts
-        ./download-toolchain.sh
-        ./install-toolchain.sh
-        echo "$HOME/.buildozer/android/platform/android-gfortran/toolchain/bin" >> $GITHUB_PATH
+        mkdir -p $HOME/.buildozer/android/platform/android-gfortran
+        cd $HOME/.buildozer/android/platform/android-gfortran
+        wget https://github.com/mzakharo/android-gfortran/releases/download/v1.0/gcc-arm-linux-x86_64.tar.bz2
+        wget https://github.com/mzakharo/android-gfortran/releases/download/v1.0/gcc-arm64-linux-x86_64.tar.bz2
+        tar -xjf gcc-arm-linux-x86_64.tar.bz2
+        tar -xjf gcc-arm64-linux-x86_64.tar.bz2
+        echo "$HOME/.buildozer/android/platform/android-gfortran/bin" >> $GITHUB_PATH
 
     - name: Trigger Buildozer to create SDK folder
       run: |
