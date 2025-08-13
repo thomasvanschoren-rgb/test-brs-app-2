@@ -15,17 +15,20 @@ jobs:
     - name: Install dependencies and buildozer
       run: |
         sudo apt update
-        sudo apt install -y python3-pip openjdk-11-jdk unzip git wget
+        sudo apt install -y python3-pip python3-setuptools python3-wheel cython3 openjdk-11-jdk unzip git wget
         pip3 install --upgrade cython
         pip3 install --upgrade buildozer
         ~/.local/bin/buildozer --version
         git --version
+        cython --version || cython3 --version
 
-    - name: Debug PATH and git
+    - name: Debug PATH and tools
       run: |
         echo "PATH=$PATH"
         which git
+        which cython || which cython3
         git --version
+        cython --version || cython3 --version
 
     - name: Install Android SDK command line tools and accept licenses
       run: |
