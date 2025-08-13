@@ -30,7 +30,7 @@ jobs:
       run: |
         cd $HOME/.buildozer/android/platform
         git clone https://github.com/mzakharo/android-gfortran.git
-        cd android-gfortran
+        cd android-gfortran/scripts
         ./install.sh
 
     - name: Trigger Buildozer to create SDK folder
