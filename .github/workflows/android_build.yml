@@ -19,11 +19,18 @@ jobs:
         pip3 install --upgrade cython
         pip3 install --upgrade buildozer
 
+    - name: Download and set up NDK r21e
+      run: |
+        mkdir -p $HOME/.buildozer/android/platform
+        wget https://dl.google.com/android/repository/android-ndk-r21e-linux-x86_64.zip
+        unzip android-ndk-r21e-linux-x86_64.zip -d $HOME/.buildozer/android/platform/
+        echo "LEGACY_NDK=$HOME/.buildozer/android/platform/android-ndk-r21e" >> $GITHUB_ENV
+
     - name: Trigger Buildozer to create SDK folder
       run: |
         ~/.local/bin/buildozer android debug || true
 
-    - name: Install Android build-tools inside Buildozer SDK
+    - name: Install Android SDK cmdline-tools & build-tools
       run: |
         mkdir -p ~/.buildozer/android/platform/android-sdk/cmdline-tools
         wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O cmdline-tools.zip
@@ -39,6 +46,7 @@ jobs:
     - name: Build final APK
       env:
         ANDROID_SDK_ROOT: $HOME/.buildozer/android/platform/android-sdk
+        LEGACY_NDK: $HOME/.buildozer/android/platform/android-ndk-r21e
         PATH: /usr/bin:$HOME/.local/bin:$HOME/.buildozer/android/platform/android-sdk/cmdline-tools/latest/bin:$PATH
       run: |
         ~/.local/bin/buildozer android debug
