@@ -18,6 +18,7 @@ jobs:
         sudo apt install -y python3-pip openjdk-11-jdk unzip git wget
         pip3 install --upgrade cython
         pip3 install --upgrade buildozer
+        ~/.local/bin/buildozer --version
 
     - name: Install Android SDK command line tools and accept licenses
       run: |
@@ -33,11 +34,10 @@ jobs:
         ANDROID_SDK_ROOT: $HOME/android-sdk
         PATH: $HOME/.local/bin:$HOME/android-sdk/cmdline-tools/latest/bin:$PATH
       run: |
-        buildozer android debug
+        ~/.local/bin/buildozer android debug
 
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
       with:
         name: brs-visualizer-apk
         path: bin/*.apk
-
